@@ -5,32 +5,29 @@ from pydantic import __version__ as pydantic_version
 
 from models import Bar, Foo
 
+NUM_THREADS = 1000
+
 
 def long_running(i):
-    print("long running", i)
-    time.sleep(2 - (i / 10000))
-    return Bar(baz=1)
+    sleep_time = 2 - (i / (NUM_THREADS * 10))
+    print("long running", i, sleep_time)
+    time.sleep(sleep_time)
+    return Bar(baz=i)
 
 
 def instantiate(i):
-    # Create multiple instances in each thread to increase pressure
-    foo = Foo(bar=[long_running(i)])
-    return 1
+    return Foo(bar=[long_running(i)])
 
 
 if __name__ == "__main__":
-    # https://github.com/pydantic/pydantic/issues/11849
-
     print(f"pydantic {pydantic_version}")
-    NUM_THREADS = 1000
+
+    instances = []
     with ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
-        futures = [
-            executor.submit(instantiate, i) for i, _ in enumerate(range(NUM_THREADS))
-        ]
+        futures = [executor.submit(instantiate, i) for i in range(NUM_THREADS)]
 
         # Wait for all threads to complete and collect results
-        total_instances = 0
         for future in as_completed(futures):
-            total_instances += future.result()
+            instances.append(future.result())
 
-    print(f"Created {total_instances} instances across {NUM_THREADS} threads")
+    print(f"Created {len(instances)} instances across {NUM_THREADS} threads")

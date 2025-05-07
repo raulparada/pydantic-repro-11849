@@ -1,6 +1,6 @@
-# Running
+Reproducible for https://github.com/pydantic/pydantic/issues/11849
 
-Tested using python 3.13.2
+Tested using python 3.13.2 on Apple M1 Pro | 16GB
 
 ```
 python -m venv venv
