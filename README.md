@@ -8,3 +8,5 @@ source venv/bin/activate
 pip install pydantic==2.11.3
 python main.py
 ```
+
+![alt text](assets/image.png)
