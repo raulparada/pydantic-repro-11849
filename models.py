@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 
 class Foo(BaseModel):
-    bar: list[Bar]
+    bar: Bar
 
 
 class Bar(BaseModel):
-    baz: int
+    baz: str

@@ -10,13 +10,14 @@ NUM_THREADS = 1000
 
 def long_running(i):
     sleep_time = 2 - (i / (NUM_THREADS * 10))
-    print("long running", i, sleep_time)
+    # print("long running", i, sleep_time)
     time.sleep(sleep_time)
-    return Bar(baz=i)
+    return Bar(baz=str(i))
 
 
 def instantiate(i):
-    return Foo(bar=[long_running(i)])
+    foo = Foo(bar=long_running(i))
+    return str(foo)
 
 
 if __name__ == "__main__":
