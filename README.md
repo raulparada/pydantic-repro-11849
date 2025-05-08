@@ -7,6 +7,8 @@ pip install pydantic==2.11.3
 python main.py
 # or, as unreliable, better as a loop
 for ((i = 0 ; i < 100 ; i++ )); do python main.py; done
+# or if tweaking args, better continuously
+while True; do python main.py; done
 ```
 
 ![alt text](assets/image.png)
